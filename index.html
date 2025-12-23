@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mark2tex - Markdown LaTeX Editor</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/toggle-switch.css">
+    <link rel="stylesheet" href="css/dropdown.css">
+    <!-- KaTeX for LaTeX rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+    <!-- KaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+</head>
+<body>
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <h1>mark2tex</h1>
+            <span class="subtitle">Markdown + LaTeX Editor</span>
+        </div>
+        <div class="toolbar-right">
+            <button id="toggleMode" title="切換編輯模式">✏️ 編輯 LaTeX</button>
+            
+            <!-- 下載下拉選單 -->
+            <div class="dropdown">
+                <button class="dropdown-toggle" id="exportDropdown">
+                    📥 匯出
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="dropdown-menu" id="exportMenu">
+                    <a href="#" id="exportMd">📄 Markdown (.md)</a>
+                    <a href="#" id="exportTex">📝 LaTeX (.tex)</a>
+                    <a href="#" id="exportPdf">📕 PDF</a>
+                </div>
+            </div>
+
+            <!-- iPhone 風格開關 -->
+            <div class="theme-toggle-wrapper">
+                <label class="theme-toggle" for="nightModeSwitch">
+                    <input type="checkbox" id="nightModeSwitch">
+                    <span class="slider">
+                        <span class="icon sun">☀️</span>
+                        <span class="icon moon">🌙</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="editor-pane">
+            <div class="pane-header">Markdown 編輯器</div>
+            <textarea id="editor" placeholder="在此輸入 Markdown 和 LaTeX...
+
+範例：
+# 標題
+
+這是一個**粗體**和*斜體*的範例。
+
+## 數學公式
+
+行內公式：$E = mc^2$
+
+區塊公式：
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+上標：x^2，下標：H_2O
+
+## 更複雜的公式
+
+$$
+\frac{\partial u}{\partial t} = \nabla^2 u
+$$
+
+$$
+\sum_{i=1}^{n} i = \frac{n(n+1)}{2}
+$$
+"></textarea>
+        </div>
+
+        <div class="preview-pane">
+            <div class="pane-header"><span id="previewTitle">即時預覽</span></div>
+            <div id="preview" class="preview-content"></div>
+            <textarea id="latexEditor" class="latex-editor" placeholder="在此編輯 LaTeX..."></textarea>
+        </div>
+    </div>
+
+    <!-- JavaScript Modules -->
+    <script src="js/storage.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/preview.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
