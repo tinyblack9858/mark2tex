@@ -1,5 +1,3 @@
-// editor.js - 編輯器邏輯管理
-
 const Editor = {
     elements: {
         editor: null,
@@ -18,15 +16,16 @@ const Editor = {
         this.elements.previewTitle = document.getElementById('previewTitle');
         this.elements.toggleModeBtn = document.getElementById('toggleMode');
 
-        // 載入儲存的內容
         this.loadContent();
 
-        // 設定事件監聽
+        // 預設僅 Markdown 可編輯
+        this.elements.editor.readOnly = false;
+        this.elements.latexEditor.readOnly = true;
+
         this.setupEventListeners();
     },
 
     setupEventListeners() {
-        // Markdown 編輯器輸入事件
         this.elements.editor.addEventListener('input', () => {
             Preview.update(this.elements.editor.value);
             this.autoSave();
@@ -40,12 +39,10 @@ const Editor = {
             }
         });
 
-        // 模式切換按鈕
         this.elements.toggleModeBtn.addEventListener('click', () => {
             this.toggleMode();
         });
 
-        // Tab 鍵處理
         this.elements.editor.addEventListener('keydown', (e) => {
             if (e.key === 'Tab') {
                 e.preventDefault();
@@ -91,26 +88,30 @@ const Editor = {
         this.isLatexEditMode = !this.isLatexEditMode;
         
         if (this.isLatexEditMode) {
-            // 切換到 LaTeX 編輯模式
+            // 切換到 LaTeX 編輯模式：右側可寫，左側唯讀
             Preview.hide();
             this.elements.latexEditor.classList.add('active');
-            this.elements.toggleModeBtn.textContent = '👁️ 預覽模式';
+            this.elements.latexEditor.readOnly = false;
+            this.elements.editor.readOnly = true;
+            this.elements.toggleModeBtn.textContent = '編輯 Markdown';
             this.elements.previewTitle.textContent = 'LaTeX 編輯器';
             
-            // 轉換 Markdown 為 LaTeX
             const markdown = this.elements.editor.value;
             this.elements.latexEditor.value = this.convertToLatex(markdown);
+            this.elements.latexEditor.focus();
         } else {
-            // 切換回預覽模式
+            // 切換回 Markdown 編輯：左側可寫，右側唯讀
             Preview.show();
             this.elements.latexEditor.classList.remove('active');
-            this.elements.toggleModeBtn.textContent = '✏️ 編輯 LaTeX';
+            this.elements.latexEditor.readOnly = true;
+            this.elements.editor.readOnly = false;
+            this.elements.toggleModeBtn.textContent = '編輯 LaTeX';
             this.elements.previewTitle.textContent = '即時預覽';
             
-            // 轉換 LaTeX 回 Markdown
             const latex = this.elements.latexEditor.value;
             this.elements.editor.value = this.convertFromLatex(latex);
             Preview.update(this.elements.editor.value);
+            this.elements.editor.focus();
         }
     },
 
@@ -132,21 +133,17 @@ const Editor = {
 
 `;
 
-        // 處理標題
         markdown = markdown.replace(/^# (.+)$/gm, '\\section{$1}');
         markdown = markdown.replace(/^## (.+)$/gm, '\\subsection{$1}');
         markdown = markdown.replace(/^### (.+)$/gm, '\\subsubsection{$1}');
 
-        // 處理粗體和斜體
         markdown = markdown.replace(/\*\*(.+?)\*\*/g, '\\textbf{$1}');
         markdown = markdown.replace(/\*(.+?)\*/g, '\\textit{$1}');
 
-        // 處理區塊公式
         markdown = markdown.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
             return `\\begin{equation}\n${formula.trim()}\n\\end{equation}`;
         });
 
-        // 處理列表
         markdown = markdown.replace(/^- (.+)$/gm, '\\item $1');
         markdown = markdown.replace(/((?:\\item .+\n)+)/g, '\\begin{itemize}\n$1\\end{itemize}\n');
 
@@ -159,7 +156,6 @@ const Editor = {
     convertFromLatex(latex) {
         let markdown = latex;
         
-        // 移除 LaTeX 文件結構
         markdown = markdown.replace(/\\documentclass\{[^}]*\}[\s\S]*?\\begin\{document\}/g, '');
         markdown = markdown.replace(/\\end\{document\}/g, '');
         markdown = markdown.replace(/\\usepackage(\[[^\]]*\])?\{[^}]*\}/g, '');
@@ -168,21 +164,17 @@ const Editor = {
         markdown = markdown.replace(/\\date\{[^}]*\}/g, '');
         markdown = markdown.replace(/\\maketitle/g, '');
         
-        // 轉換章節標題
         markdown = markdown.replace(/\\section\{([^}]+)\}/g, '# $1');
         markdown = markdown.replace(/\\subsection\{([^}]+)\}/g, '## $1');
         markdown = markdown.replace(/\\subsubsection\{([^}]+)\}/g, '### $1');
         
-        // 轉換粗體和斜體
         markdown = markdown.replace(/\\textbf\{([^}]+)\}/g, '**$1**');
         markdown = markdown.replace(/\\textit\{([^}]+)\}/g, '*$1*');
         
-        // 轉換公式環境
         markdown = markdown.replace(/\\begin\{equation\}([\s\S]*?)\\end\{equation\}/g, (match, formula) => {
             return `$$${formula.trim()}$$`;
         });
         
-        // 轉換列表
         markdown = markdown.replace(/\\begin\{itemize\}([\s\S]*?)\\end\{itemize\}/g, (match, items) => {
             return items.replace(/\\item\s+/g, '- ');
         });
@@ -192,7 +184,6 @@ const Editor = {
             return items.replace(/\\item\s+/g, () => `${counter++}. `);
         });
         
-        // 清理多餘的空行
         markdown = markdown.replace(/\n{3,}/g, '\n\n');
         markdown = markdown.trim();
         

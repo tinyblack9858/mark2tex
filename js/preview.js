@@ -1,12 +1,9 @@
-// preview.js - 預覽渲染管理
-
 const Preview = {
     element: null,
 
     init() {
         this.element = document.getElementById('preview');
         
-        // 設定 marked 選項
         marked.setOptions({
             breaks: true,
             gfm: true,
@@ -21,7 +18,6 @@ const Preview = {
     },
 
     processLatex(text) {
-        // 暫存區塊公式
         const blockMathPlaceholders = [];
         text = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
             const placeholder = `__BLOCK_MATH_${blockMathPlaceholders.length}__`;
@@ -29,7 +25,6 @@ const Preview = {
             return placeholder;
         });
 
-        // 暫存行內公式
         const inlineMathPlaceholders = [];
         text = text.replace(/\$([^\$\n]+?)\$/g, (match, formula) => {
             const placeholder = `__INLINE_MATH_${inlineMathPlaceholders.length}__`;
@@ -37,10 +32,8 @@ const Preview = {
             return placeholder;
         });
 
-        // 轉換 Markdown
         let html = marked.parse(text);
 
-        // 還原並渲染區塊公式
         blockMathPlaceholders.forEach((formula, index) => {
             const placeholder = `__BLOCK_MATH_${index}__`;
             try {
@@ -55,7 +48,6 @@ const Preview = {
             }
         });
 
-        // 還原並渲染行內公式
         inlineMathPlaceholders.forEach((formula, index) => {
             const placeholder = `__INLINE_MATH_${index}__`;
             try {

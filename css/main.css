@@ -70,8 +70,10 @@ body {
     align-items: center;
 }
 
-.toolbar-right button {
-    padding: 0.5rem 1rem;
+.toolbar-right button,
+.dropdown-toggle {
+    padding: 0.55rem 1rem;
+    min-height: 36px;
     background-color: var(--accent-color);
     color: white;
     border: none;
@@ -79,14 +81,20 @@ body {
     cursor: pointer;
     font-size: 0.9rem;
     transition: opacity 0.2s ease, transform 0.1s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
 }
 
-.toolbar-right button:hover {
+.toolbar-right button:hover,
+.dropdown-toggle:hover {
     opacity: 0.9;
     transform: translateY(-1px);
 }
 
-.toolbar-right button:active {
+.toolbar-right button:active,
+.dropdown-toggle:active {
     transform: translateY(0);
 }
 

@@ -1,7 +1,5 @@
-// storage.js - 本地儲存管理
-
 const Storage = {
-    // 儲存 Markdown 內容
+
     saveContent(content) {
         try {
             localStorage.setItem('markdown-content', content);
@@ -10,7 +8,6 @@ const Storage = {
         }
     },
 
-    // 載入 Markdown 內容
     loadContent() {
         try {
             return localStorage.getItem('markdown-content') || '';
@@ -20,7 +17,6 @@ const Storage = {
         }
     },
 
-    // 儲存夜間模式設定
     saveNightMode(isEnabled) {
         try {
             localStorage.setItem('nightMode', isEnabled ? 'true' : 'false');
@@ -29,7 +25,6 @@ const Storage = {
         }
     },
 
-    // 載入夜間模式設定
     loadNightMode() {
         try {
             return localStorage.getItem('nightMode') === 'true';
@@ -39,7 +34,6 @@ const Storage = {
         }
     },
 
-    // 清除所有資料
     clearAll() {
         try {
             localStorage.removeItem('markdown-content');
