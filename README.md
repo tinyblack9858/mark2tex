@@ -6,7 +6,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 
-## 支援標準 Markdown 語法
+### 支援 Markdown 語法
 
 ```markdown
 # 標題 1
@@ -24,6 +24,7 @@
 
 [連結](https://example.com)
 ![圖片](image.jpg)
+...
 ```
 
 
