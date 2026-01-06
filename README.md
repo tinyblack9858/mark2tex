@@ -1,12 +1,12 @@
 # mark2tex
 
-一個純前端的 Markdown + LaTeX 編輯器，專為 Markdown 愛好者設計
+一個純前端的 Markdown + LaTeX 編輯器
 
 ![mark2tex](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 
-## 支援標準 Markdown 語法
+### 支援 Markdown 語法
 
 ```markdown
 # 標題 1
@@ -24,6 +24,7 @@
 
 [連結](https://example.com)
 ![圖片](image.jpg)
+...
 ```
 
 
