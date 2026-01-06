@@ -1,6 +1,6 @@
 # mark2tex
 
-一個純前端的 Markdown + LaTeX 編輯器，專為 Markdown 愛好者設計
+一個純前端的 Markdown + LaTeX 編輯器
 
 ![mark2tex](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
