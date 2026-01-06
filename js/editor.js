@@ -111,7 +111,7 @@ const Editor = {
             if (!wrapper.contains(e.target)) {
                 wrapper.classList.remove('active');
             }
-        });
+        }, true);
 
         wrapper.querySelectorAll('[data-template-option]').forEach((option) => {
             option.addEventListener('click', (e) => {

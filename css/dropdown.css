@@ -47,12 +47,14 @@
     transition: all 0.3s ease;
     z-index: 1000;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    pointer-events: auto;
 }
 
 .dropdown-menu a {

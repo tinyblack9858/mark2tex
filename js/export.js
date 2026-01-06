@@ -1,9 +1,11 @@
 const ExportManager = {
     init() {
 
-        const dropdown = document.querySelector('.dropdown');
+        const dropdown = document.getElementById('exportDropdownWrapper');
         const dropdownToggle = document.getElementById('exportDropdown');
-        const exportMenu = document.getElementById('exportMenu');
+        if (!dropdown || !dropdownToggle) {
+            return;
+        }
 
         dropdownToggle.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -14,7 +16,7 @@ const ExportManager = {
             if (!dropdown.contains(e.target)) {
                 dropdown.classList.remove('active');
             }
-        });
+        }, true);
 
         document.getElementById('exportMd').addEventListener('click', (e) => {
             e.preventDefault();
