@@ -19,7 +19,17 @@
             <span class="subtitle">Markdown + LaTeX Editor</span>
         </div>
         <div class="toolbar-right">
-            <button id="toggleMode" title="切換編輯模式"> 編輯 LaTeX</button>
+            <div class="dropdown template-dropdown">
+                <button class="dropdown-toggle" id="templateDropdown" title="選擇 LaTeX 模板">
+                    Format: <span id="templateLabel">General Article</span>
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="dropdown-menu" id="templateMenu">
+                    <a href="#" data-template-option="article">General Article (Default)</a>
+                    <a href="#" data-template-option="ieee">IEEE Conference</a>
+                    <a href="#" data-template-option="apa">APA 7 Manuscript</a>
+                </div>
+            </div>
             
             <div class="dropdown">
                 <button class="dropdown-toggle" id="exportDropdown">
@@ -57,7 +67,6 @@
         <div class="preview-pane">
             <div class="pane-header"><span id="previewTitle">即時預覽</span></div>
             <div id="preview" class="preview-content"></div>
-            <textarea id="latexEditor" class="latex-editor" placeholder="在此編輯 LaTeX..."></textarea>
         </div>
     </div>
 

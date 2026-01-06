@@ -17,6 +17,23 @@ const Storage = {
         }
     },
 
+    saveTemplate(templateKey) {
+        try {
+            localStorage.setItem('latex-template', templateKey);
+        } catch (e) {
+            console.error('儲存模板設定失敗:', e);
+        }
+    },
+
+    loadTemplate() {
+        try {
+            return localStorage.getItem('latex-template') || 'article';
+        } catch (e) {
+            console.error('載入模板設定失敗:', e);
+            return 'article';
+        }
+    },
+
     saveNightMode(isEnabled) {
         try {
             localStorage.setItem('nightMode', isEnabled ? 'true' : 'false');
