@@ -1,4 +1,5 @@
 const Theme = {
+    /** 初始化主題設定：讀取儲存值並綁定切換事件 */
     init() {
         const nightModeSwitch = document.getElementById('nightModeSwitch');
         

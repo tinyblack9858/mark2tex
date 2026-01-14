@@ -1,6 +1,7 @@
 const Preview = {
     element: null,
 
+    /** 初始化預覽區與 marked 設定 */
     init() {
         this.element = document.getElementById('preview');
         
@@ -12,11 +13,18 @@ const Preview = {
         });
     },
 
+    /** 更新預覽：先處理 LaTeX，再置入 HTML */
     update(markdown) {
         const html = this.processLatex(markdown);
         this.element.innerHTML = html;
     },
 
+    /**
+     * 處理文字中的 KaTeX 表達式
+     * - 暫存 block / inline 公式為 placeholder
+     * - 使用 marked 轉為 HTML
+     * - 再以 KaTeX 渲染回插入 HTML
+     */
     processLatex(text) {
         const blockMathPlaceholders = [];
         text = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
@@ -65,10 +73,12 @@ const Preview = {
         return html;
     },
 
+    /** 隱藏預覽區 */
     hide() {
         this.element.classList.add('hidden');
     },
 
+    /** 顯示預覽區 */
     show() {
         this.element.classList.remove('hidden');
     }

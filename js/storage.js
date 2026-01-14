@@ -1,5 +1,6 @@
 const Storage = {
 
+    /** 儲存 Markdown 內容到 localStorage */
     saveContent(content) {
         try {
             localStorage.setItem('markdown-content', content);
@@ -8,6 +9,7 @@ const Storage = {
         }
     },
 
+    /** 從 localStorage 讀取 Markdown 內容 */
     loadContent() {
         try {
             return localStorage.getItem('markdown-content') || '';
@@ -17,6 +19,7 @@ const Storage = {
         }
     },
 
+    /** 儲存使用者選擇的 LaTeX 範本 */
     saveTemplate(templateKey) {
         try {
             localStorage.setItem('latex-template', templateKey);
@@ -25,6 +28,7 @@ const Storage = {
         }
     },
 
+    /** 讀取使用者選擇的 LaTeX 範本 */
     loadTemplate() {
         try {
             return localStorage.getItem('latex-template') || 'article';
@@ -34,6 +38,7 @@ const Storage = {
         }
     },
 
+    /** 儲存夜間模式設定 */
     saveNightMode(isEnabled) {
         try {
             localStorage.setItem('nightMode', isEnabled ? 'true' : 'false');
@@ -42,6 +47,7 @@ const Storage = {
         }
     },
 
+    /** 讀取夜間模式設定 */
     loadNightMode() {
         try {
             return localStorage.getItem('nightMode') === 'true';
@@ -51,6 +57,7 @@ const Storage = {
         }
     },
 
+    /** 清除儲存的使用者資料（內容與夜間模式） */
     clearAll() {
         try {
             localStorage.removeItem('markdown-content');

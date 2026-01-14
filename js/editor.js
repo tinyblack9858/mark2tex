@@ -1,3 +1,4 @@
+// LATEX_TEMPLATES: LaTeX 模板集合，用於將 Markdown 轉為 LaTeX
 const LATEX_TEMPLATES = {
     article: {
         label: 'General Article',
@@ -55,6 +56,9 @@ const LATEX_TEMPLATES = {
     }
 };
 
+/**
+ * Editor: 管理編輯器 DOM、事件、模板與自動儲存
+ */
 const Editor = {
     elements: {
         editor: null,
@@ -66,6 +70,7 @@ const Editor = {
     selectedTemplate: 'article',
     saveTimeout: null,
 
+    /** 初始化編輯器：取得 DOM、載入內容、設定事件與模板 */
     init() {
         // 取得 DOM 元素
         this.elements.editor = document.getElementById('editor');
@@ -81,6 +86,7 @@ const Editor = {
         this.setupTemplateDropdown();
     },
 
+    /** 綁定編輯器事件（輸入、Tab 鍵處理） */
     setupEventListeners() {
         this.elements.editor.addEventListener('input', () => {
             Preview.update(this.elements.editor.value);
@@ -95,6 +101,7 @@ const Editor = {
         });
     },
 
+    /** 設定模板下拉選單互動行為 */
     setupTemplateDropdown() {
         const wrapper = this.elements.templateWrapper;
         const dropdownBtn = this.elements.templateDropdown;
@@ -123,6 +130,7 @@ const Editor = {
         });
     },
 
+    /** 從 Storage 載入內容並更新預覽 */
     loadContent() {
         const saved = Storage.loadContent();
         if (saved) {
@@ -133,6 +141,7 @@ const Editor = {
         }
     },
 
+    /** 延遲自動儲存編輯內容（debounce） */
     autoSave() {
         clearTimeout(this.saveTimeout);
         this.saveTimeout = setTimeout(() => {
@@ -140,6 +149,7 @@ const Editor = {
         }, 1000);
     },
 
+    /** 設定目前 LaTeX 模板並儲存選擇 */
     setTemplate(templateKey) {
         if (!LATEX_TEMPLATES[templateKey]) {
             return;
@@ -149,12 +159,14 @@ const Editor = {
         this.updateTemplateLabel();
     },
 
+    /** 更新模板標籤文字以反映目前選擇 */
     updateTemplateLabel() {
         if (this.elements.templateLabel) {
             this.elements.templateLabel.textContent = LATEX_TEMPLATES[this.selectedTemplate].label;
         }
     },
 
+    /** 在 textarea 插入 Tab（四個空格） */
     insertTab() {
         const textarea = this.elements.editor;
         const start = textarea.selectionStart;
@@ -164,6 +176,7 @@ const Editor = {
         textarea.selectionStart = textarea.selectionEnd = start + 4;
     },
 
+    /** 將 Markdown 內容轉換為 LaTeX 字串 */
     convertToLatex(markdown) {
         const template = LATEX_TEMPLATES[this.selectedTemplate] || LATEX_TEMPLATES.article;
         let latex = `${template.preamble}` + '\n\n' + template.beforeBody;
@@ -188,6 +201,7 @@ const Editor = {
         return latex;
     },
 
+    /** 取得編輯器目前內容 */
     getContent() {
         return this.elements.editor.value;
     }
